@@ -28,6 +28,8 @@ public class TunerConstants {
   // The steer motor uses any SwerveModule.SteerRequestType control request with
   // the
   // output type specified by SwerveModuleConstants.SteerMotorClosedLoopOutput
+  
+  //PID CONSTANTS FOR DRIVE MOTORS AND DRIVE PID
   private static final Slot0Configs steerGains =
       new Slot0Configs()
           .withKP(100)
@@ -42,6 +44,8 @@ public class TunerConstants {
   private static final Slot0Configs driveGains =
       new Slot0Configs().withKP(0.1).withKI(0).withKD(0).withKS(0).withKV(0.124);
 
+  public static final double[] translationPID = {5, 0, 0};
+  public static final double[] rotationPID = {5, 0, 0};
   // The closed-loop output type to use for the steer motors;
   // This affects the PID/FF gains for the steer motors
   private static final ClosedLoopOutputType kSteerClosedLoopOutput = ClosedLoopOutputType.Voltage;
@@ -88,9 +92,13 @@ public class TunerConstants {
   // All swerve devices must share the same CAN bus
   public static final CANBus kCANBus = new CANBus("Swerve", "./logs/example.hoot");
 
+  //Max Speeds to tune
   // Theoretical free speed (m/s) at 12 V applied output;
   // This needs to be tuned to your individual robot
   public static final LinearVelocity kSpeedAt12Volts = MetersPerSecond.of(4.69);
+  public static final Double maxAcceleration = 7.875;
+  public static final Double maxAngularAcceleration = 10.0;
+  public static final Double maxAngularSpeed = 12.1455;
 
   // Every 1 rotation of the azimuth results in kCoupleRatio drive motor turns;
   // This may need to be tuned to your individual robot

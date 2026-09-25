@@ -20,7 +20,6 @@ import edu.wpi.first.hal.FRCNetComm.tInstances;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.math.Matrix;
-import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -44,8 +43,6 @@ import frc.robot.Constants;
 import frc.robot.Constants.Mode;
 import frc.robot.generated.TunerConstants;
 import frc.robot.util.LocalADStarAK;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import org.littletonrobotics.junction.AutoLogOutput;
@@ -67,8 +64,8 @@ public class Drive extends SubsystemBase {
   private static final double ROBOT_MASS_KG = 74.088;
   private static final double ROBOT_MOI = 6.883;
   private static final double WHEEL_COF = 1.2;
-  private final double[] translationPID = {5, 0, 0};
-  private final double[] rotationPID = {5, 0, 0};
+  private final double[] translationPID = TunerConstants.translationPID;
+  private final double[] rotationPID = TunerConstants.rotationPID;
   private static final RobotConfig PP_CONFIG =
       new RobotConfig(
           ROBOT_MASS_KG,
@@ -124,8 +121,6 @@ public class Drive extends SubsystemBase {
     // Start odometry thread
     PhoenixOdometryThread.getInstance().start();
 
-    setDynamicRobotObstacles();
-
     // Configure AutoBuilder for PathPlanner
     AutoBuilder.configure(
         this::getPose,
@@ -158,40 +153,6 @@ public class Drive extends SubsystemBase {
                 (state) -> Logger.recordOutput("Drive/SysIdState", state.toString())),
             new SysIdRoutine.Mechanism(
                 (voltage) -> runCharacterization(voltage.in(Volts)), null, this));
-  }
-
-  public void setDynamicRobotObstacles() {
-    List<Pose2d> detectedRobots =
-        List.of(
-            //new Pose2d(5.0, 3.0, Rotation2d.fromDegrees(74)),
-            //new Pose2d(5.0, 2.0, Rotation2d.fromDegrees(224))
-            );
-
-    List<Pair<Translation2d, Translation2d>> obstacles = new ArrayList<>();
-
-    // Build obstacles from detected robots
-    for (Pose2d robotPose : detectedRobots) {
-      Translation2d center = robotPose.getTranslation();
-
-      double halfLength = 0.45 + 0.25;
-      double halfWidth = 0.40 + 0.25;
-
-      Translation2d min = new Translation2d(center.getX() - halfLength, center.getY() - halfWidth);
-
-      Translation2d max = new Translation2d(center.getX() + halfLength, center.getY() + halfWidth);
-
-      obstacles.add(new Pair<>(min, max));
-    }
-
-    // Log obstacles for AdvantageScope
-    for (int i = 0; i < detectedRobots.size(); i++) {
-      Pose2d robots = detectedRobots.get(i);
-
-      Logger.recordOutput("PathPlanner/Opponent-Robot" + i, robots);
-    }
-
-    // Give obstacles to PathPlanner
-    pathFinder.setDynamicObstacles(obstacles, getPose().getTranslation());
   }
 
   @Override
@@ -392,12 +353,16 @@ public class Drive extends SubsystemBase {
   }
 
   public double getMaxLinearSpeedMetersPerSecSq() {
-    return 7.875;
+    return TunerConstants.maxAcceleration;
   }
 
   /** Returns the maximum angular speed in radians per sec. */
   public double getMaxAngularSpeedRadPerSec() {
-    return getMaxLinearSpeedMetersPerSec() / DRIVE_BASE_RADIUS;
+    return TunerConstants.maxAngularSpeed;
+  }
+
+  public double getMaxAngularSpeedRadPerSecSq() {
+    return TunerConstants.maxAngularAcceleration;
   }
 
   /** Returns an array of module translations. */
