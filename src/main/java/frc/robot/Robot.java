@@ -91,10 +91,7 @@ public class Robot extends LoggedRobot {
 
   /** This function is called once when the robot is disabled. */
   @Override
-  public void disabledInit() {
-    robotContainer.setIMUMODE(1);
-    robotContainer.setIMUAssist(0.001);
-  }
+  public void disabledInit() {}
 
   /** This function is called periodically when disabled. */
   @Override
@@ -105,8 +102,6 @@ public class Robot extends LoggedRobot {
   public void autonomousInit() {
     autonomousCommand = robotContainer.getAutonomousCommand();
 
-    robotContainer.setIMUMODE(4);
-    robotContainer.setIMUAssist(0.001);
     // schedule the autonomous command (example)
     if (autonomousCommand != null) {
       CommandScheduler.getInstance().schedule(autonomousCommand);
@@ -125,8 +120,6 @@ public class Robot extends LoggedRobot {
     // continue until interrupted by another command, remove
     // this line or comment it out.
 
-    robotContainer.setIMUMODE(4);
-    robotContainer.setIMUAssist(0.001);
     robotContainer.configureButtonBindings();
 
     if (autonomousCommand != null) {
@@ -136,9 +129,7 @@ public class Robot extends LoggedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {
-    //robotContainer.setDynamicObstacles();
-  }
+  public void teleopPeriodic() {}
 
   /** This function is called once when test mode is enabled. */
   @Override
