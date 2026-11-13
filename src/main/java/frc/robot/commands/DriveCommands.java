@@ -31,6 +31,9 @@ import java.util.List;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.PathConstraints;
+
 public class DriveCommands {
   private static final double DEADBAND = 0.1;
   private static final double[] translationPID = TunerConstants.translationPID;
@@ -95,6 +98,18 @@ public class DriveCommands {
                       : drive.getRotation()));
         },
         drive);
+  }
+
+  public static Command pathfindToPose(Drive drive, Pose2d targetPose) {
+    PathConstraints constraints =
+        new PathConstraints(
+            drive.getMaxLinearSpeedMetersPerSec(), // Max velocity m/s
+            drive.getMaxLinearSpeedMetersPerSecSq(), // Max acceleration m/s²
+            drive.getMaxAngularSpeedRadPerSec(), // Max angular velocity rad/s
+            drive.getMaxAngularSpeedRadPerSecSq() // Max angular acceleration rad/s²
+            );
+
+    return AutoBuilder.pathfindToPose(targetPose, constraints, 0.0);
   }
 
   /**

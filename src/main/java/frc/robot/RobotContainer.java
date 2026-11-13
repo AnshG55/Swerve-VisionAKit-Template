@@ -11,11 +11,8 @@ import static frc.robot.subsystems.vision.VisionConstants.*;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.path.PathConstraints;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
@@ -136,29 +133,6 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private Command pathfindToPose(Pose2d targetPose) {
-    PathConstraints constraints =
-        new PathConstraints(
-            drive.getMaxLinearSpeedMetersPerSec(), // Max velocity m/s
-            drive.getMaxLinearSpeedMetersPerSecSq(), // Max acceleration m/s²
-            drive.getMaxAngularSpeedRadPerSec(), // Max angular velocity rad/s
-            drive.getMaxAngularSpeedRadPerSecSq() // Max angular acceleration rad/s²
-            );
-
-    return AutoBuilder.pathfindToPose(targetPose, constraints, 0.0);
-  }
-
-  public void setIMUMODE(int mode) {
-    LimelightHelpers.SetIMUMode(camera0Name, mode);
-    LimelightHelpers.SetIMUMode(camera1Name, mode);
-  }
-
-  public void setIMUAssist(double num) {
-    LimelightHelpers.SetIMUAssistAlpha(camera0Name, num);
-    LimelightHelpers.SetIMUAssistAlpha(camera1Name, num);
-  }
-
-  public void configureButtonBindings() {}
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

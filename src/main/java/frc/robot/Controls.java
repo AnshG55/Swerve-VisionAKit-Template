@@ -4,14 +4,13 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
+import java.util.logging.Logger;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.DriveCommands;
 import frc.robot.subsystems.drive.Drive;
-import org.littletonrobotics.junction.AutoLogOutput;
 
 /** Add your docs here. */
 public class Controls {
@@ -47,15 +46,15 @@ public class Controls {
     //             () -> Rotation2d.kZero));
 
     // Reset gyro to 0° when B button is pressed
-    controller
-        .b()
-        .onTrue(
-            Commands.runOnce(
-                    () ->
-                        drive.setPose(
-                            new Pose2d(drive.getPose().getTranslation(), Rotation2d.kZero)),
-                    drive)
-                .ignoringDisable(true));
+    // controller
+    //     .b()
+    //     .onTrue(
+    //         Commands.runOnce(
+    //                 () ->
+    //                     drive.setPose(
+    //                         new Pose2d(drive.getPose().getTranslation(), Rotation2d.kZero)),
+    //                 drive)
+    //             .ignoringDisable(true));
 
     // SNAP TO POSE MADE WITH PID
     // In METERS, METERS, DEGREES
@@ -71,8 +70,9 @@ public class Controls {
     // controller
     //       .a()
     //       .whileTrue(
-    //         pathfindToPose(new Pose2d(x, y,
-    //         new Rotation2d(Unit.degreesToRadians(theta)))));
+    //         DriveCommands.pathfindToPose(
+    //           drive, new Pose2d(x, y, new Rotation2d(Units.degreesToRadians(theta)))
+    //           ));
   }
 
   public static void bindChooser(CommandXboxController driverController, Drive drive) {
