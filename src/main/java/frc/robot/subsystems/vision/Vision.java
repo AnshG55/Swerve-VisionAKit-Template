@@ -19,6 +19,7 @@ import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.LimelightHelpers;
 import frc.robot.subsystems.vision.VisionIO.PoseObservationType;
 import java.util.LinkedList;
 import java.util.List;
@@ -47,6 +48,10 @@ public class Vision extends SubsystemBase {
           new Alert(
               "Vision camera " + Integer.toString(i) + " is disconnected.", AlertType.kWarning);
     }
+
+    // IMU Modes for standard devs, look at limelight docs
+    // setIMUMODE(0);
+    // setIMUAssist(0);
   }
 
   /**
@@ -166,6 +171,16 @@ public class Vision extends SubsystemBase {
         "Vision/Summary/RobotPosesAccepted", allRobotPosesAccepted.toArray(new Pose3d[0]));
     Logger.recordOutput(
         "Vision/Summary/RobotPosesRejected", allRobotPosesRejected.toArray(new Pose3d[0]));
+  }
+
+    public void setIMUMODE(int mode) {
+    LimelightHelpers.SetIMUMode(camera0Name, mode);
+    LimelightHelpers.SetIMUMode(camera1Name, mode);
+  }
+
+  public void setIMUAssist(double num) {
+    LimelightHelpers.SetIMUAssistAlpha(camera0Name, num);
+    LimelightHelpers.SetIMUAssistAlpha(camera1Name, num);
   }
 
   @FunctionalInterface
