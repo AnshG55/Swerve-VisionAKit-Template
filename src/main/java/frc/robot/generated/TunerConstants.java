@@ -28,8 +28,8 @@ public class TunerConstants {
   // The steer motor uses any SwerveModule.SteerRequestType control request with
   // the
   // output type specified by SwerveModuleConstants.SteerMotorClosedLoopOutput
-  
-  //PID CONSTANTS FOR DRIVE MOTORS AND DRIVE PID
+
+  // PID CONSTANTS FOR DRIVE MOTORS AND DRIVE PID
   private static final Slot0Configs steerGains =
       new Slot0Configs()
           .withKP(100)
@@ -92,7 +92,7 @@ public class TunerConstants {
   // All swerve devices must share the same CAN bus
   public static final CANBus kCANBus = new CANBus("Swerve", "./logs/example.hoot");
 
-  //Max Speeds to tune
+  // Max Speeds to tune
   // Theoretical free speed (m/s) at 12 V applied output;
   // This needs to be tuned to your individual robot
   public static final LinearVelocity kSpeedAt12Volts = MetersPerSecond.of(4.69);
