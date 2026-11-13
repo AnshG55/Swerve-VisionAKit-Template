@@ -127,7 +127,7 @@ public class RobotContainer {
         "Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
     // Configure the button bindings
-    configureButtonBindings();
+    Controls.staticBinds(controller, drive);
   }
 
   /**
@@ -158,53 +158,7 @@ public class RobotContainer {
     LimelightHelpers.SetIMUAssistAlpha(camera1Name, num);
   }
 
-  public void configureButtonBindings() {
-    // Default command, normal field-relative drive
-    drive.setDefaultCommand(
-        DriveCommands.joystickDrive(
-            drive,
-            () -> -controller.getLeftY(),
-            () -> -controller.getLeftX(),
-            () -> -controller.getRightX()));
-
-    // Lock to 0° when X button is held
-    // controller
-    //     .x()
-    //     .whileTrue(
-    //         DriveCommands.joystickDriveAtAngle(
-    //             drive,
-    //             () -> -controller.getLeftY(),
-    //             () -> -controller.getLeftX(),
-    //             () -> Rotation2d.kZero));
-
-    // Reset gyro to 0° when B button is pressed
-    // controller
-    //     .b()
-    //     .onTrue(
-    //         Commands.runOnce(
-    //                 () ->
-    //                     drive.setPose(
-    //                         new Pose2d(drive.getPose().getTranslation(), Rotation2d.kZero)),
-    //                 drive)
-    //             .ignoringDisable(true));
-
-    // SNAP TO POSE MADE WITH PID
-    // In METERS, METERS, DEGREES
-    // controller
-    //     .a()
-    //     .whileTrue(
-    //         DriveCommands.DriveToPose2D(
-    //                 drive, new Pose2d(x, y, new Rotation2d(Units.degreesToRadians(theta)))
-    //                 ));
-
-    // PATHFIND TO POSE MADE WITH PATHPLANNER
-    // In METERS, METERS, RADS
-    // controller
-    //       .a()
-    //       .whileTrue(
-    //         pathfindToPose(new Pose2d(x, y,
-    //         new Rotation2d(Unit.degreesToRadians(theta)))));
-  }
+  public void configureButtonBindings() {}
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
